@@ -102,7 +102,7 @@ void load_books(books **head)
 /**
  *print_list- Print list of single linked list for books
  *
- *@h: head pointer of nodes
+ *@h: head pointer of list
  *Return: number of total nodes
  */
 
@@ -113,7 +113,7 @@ void print_list(const books *head)
 
 	while (head != NULL)
 	{
-		printf("#%d: \"%s\" by %s\n", id, head->name, head->author);
+		printf("#%d: \"%s\" by %s\n\n", id, head->name, head->author);
 		id++;
 		total_books++;
 		head = head->next;
