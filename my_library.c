@@ -3,44 +3,16 @@
 #include "main.h"
 
 
-/**
- * list_books - prints the list of all books and the total
+/** * welcome_msg - greets the user
  */
 
-void list_books(void)
-{
-
-	int letter;
-
-	FILE *file = fopen("books.txt", "r");
-
-	if (file == NULL)
-	{
-		perror("Error opening file");
-		return;
-	}
-
-	while ((letter = fgetc(file)) != EOF) /* this gets each line until file ends */
-		putchar(letter);
-	fclose(file);
-}
-
-
-
-/**
- * welcome_msg - greets the user
- */
-
-void welcome_msg(void)
-{
+void welcome_msg(void) {
 	printf("\n\n\n-----------------------------------\n\n\n");
 	printf(" WELCOME TO MY LIBRARY\n");
-	printf("\n\nHere you will find available books\n");
-	printf("to take home with a permit.\n\n");
+	printf("\n\nHere you will find available books\n"); printf("to take home with a permit.\n\n");
 }
 
-/**
- * loop_options- prints all options for user
+/** * loop_options- prints all options for user
  */
 
 void loop_options(void)
@@ -55,7 +27,7 @@ int main (void)
 {
 
 	int on = 1;
-	char *str_option;
+	char str_option[10];
 
 	books *head = NULL;
 	load_books(&head);
@@ -64,7 +36,8 @@ int main (void)
 	while (on == 1)
 	{
 		loop_options();/* prints options to choose */
-		scanf("%s:",str_option);
+		scanf(" %s",str_option);
+
 		if ((strcmp(str_option, "1")) == 0)
 			printf("\n\n[RENT A BOOK]\n\n");
 		else if ((strcmp(str_option, "2")) == 0)
@@ -74,7 +47,10 @@ int main (void)
 			printf("\n\n\n");
 		}
 		else if ((strcmp(str_option, "3")) == 0)
+		{
 			on = 0;
+		free_list(head);
+		}
 		else
 			printf("\nERROR: CHOOSE A VALID OPTION 1, 2 OR 3\n");
 	}
