@@ -2,18 +2,20 @@
 #include "main.h"
 
 /**
- *add_node- Add a new node to the start of the link list
- *
+ *add_node_end- Add a new node to th6e end of the link list
+
  *@head: head pointer of nodes
- *@book_name: name of book
- *@book_author: name of author of book
+ *@str: string6
+ *Return: new_node adress
  */
 
-void *add_book(books **head, const char *book_name, const char *book_author)
+void *add_book_end(books **head, const char *book_name, const char *book_author)
 {
-	books *new_book; /* make a node */
+	books *new_book, *temp;
 
-	new_book = malloc(sizeof(books));
+	temp = NULL;
+
+	new_book = malloc(sizeof(books)); /* create node */
 	if (new_book == NULL)
 		return (NULL);
 
@@ -29,9 +31,20 @@ void *add_book(books **head, const char *book_name, const char *book_author)
 	{
 		free(new_book->name);
 		free(new_book);
+		return (NULL);
 	}
-	new_book->next = *head;
-	*head = new_book;
+	if (*head == NULL)
+		*head = new_book;
+	else
+	{
+		temp = *head; /* temporary *ptr for nodes */
+		while (temp->next != NULL)/* finding last node */
+			temp = temp->next;
+
+		temp->next = new_book; /* found last node, point to new_book */
+
+	}
+	new_book->next = NULL; /* Finally new_node points to null */
 }
 
 /**
@@ -42,10 +55,10 @@ void *add_book(books **head, const char *book_name, const char *book_author)
 void load_books(books **head)
 {
 
-	char line[200];
-	char *name;
-	char *author;
-	int len;
+	char line[250];
+	char *name = NULL;
+	char *author = NULL;
+	int len = 0;
 	FILE *file = fopen("books.txt", "r");
 
 	if (file == NULL)
@@ -62,15 +75,26 @@ void load_books(books **head)
 	 * this allows us seperate name and author of the book
 	 * after that we send it to the add_book to make a node for the book
 	 */
-	
-	
+
+
 	while(fgets(line, sizeof(line), file) != NULL) /* create nodes with the .txt file */
 	{
 		name = strtok(line, "-");
+		if (name == NULL)
+		{
+			printf("ERROR NULL NAME\n");
+			return;
+		}
 		author = strtok(NULL, "-");
+		if (author == NULL)
+		{
+			printf("ERROR NULL AUTHOR\n");
+			return;
+		}
+
 		len = strlen(author);
 		author[len - 1] = '\0';/* remove '\n' at the end of author string */
-		add_book(head, name, author); /* make a node */
+		add_book_end(head, name, author); /* make a node */
 	}
 	fclose(file); /*  close file when done */
 }
@@ -95,5 +119,24 @@ void print_list(const books *head)
 		head = head->next;
 	}
 	printf("Total Books %d\n", total_books);
+}
+
+/**
+ * free_list- free linked list passing the head to it
+ */
+
+void free_list( books *head)
+{
+	books *temp;
+	temp = NULL;
+
+	while (head != NULL)
+	{
+		temp = head->next;
+		free(head->name);
+		free(head->author);
+		free(head);
+		head = temp;
+	}
 }
 
