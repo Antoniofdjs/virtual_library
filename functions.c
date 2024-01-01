@@ -1,5 +1,55 @@
 #include <stdio.h>
 #include "main.h"
+#include <stdlib.h>
+
+void *delete_book(books **head, const int book_id)
+{
+	int match = 0;
+
+	books *temp = *head;
+	books *prev_book = NULL;
+
+	while (temp != NULL)
+	{
+		if (temp->id == book_id)
+		{
+			match = 1; /* found id of book */
+
+			if (prev_book != NULL) /* check if we are not at first node(book) */
+			{
+				prev_book->next = temp->next;
+				free(temp->name);
+				free(temp->author);
+				free(temp);
+			}
+			else
+			{
+				/* Book to delete is the first */
+				*head = temp->next;
+				free(temp->name);
+				free(temp->author);
+				free(temp);
+				match = 2; /* match 2 indicates its the first node */
+			}
+
+			break; /* Book node is deleted */
+		}
+		prev_book = temp;
+		temp = temp->next;
+	}
+
+	if (match == 2)
+		prev_book = *head;
+	else
+		prev_book = prev_book->next;
+
+	/* Update the ids of remaining books */
+	while (prev_book != NULL)
+	{
+		prev_book->id = (prev_book->id - 1);
+		prev_book = prev_book->next;
+	}
+}
 
 /**
  *add_node_end- Add a new node to th6e end of the link list
@@ -13,7 +63,7 @@ void *add_book_end(books **head, const char *book_name, const char *book_author)
 {
 	int book_id = 2;
 	books *new_book, *temp;
-	
+
 	temp = NULL;
 
 	new_book = malloc(sizeof(books)); /* create node */
