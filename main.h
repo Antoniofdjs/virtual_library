@@ -14,6 +14,7 @@ struct Books *next;
 
 void admin_settings(books **head);
 void *add_book_end(books **head, const char *book_name, const char *book_author);
+void *delete_book(books **head, const int book_id);
 void load_books(books **head);
 void print_list(const books *head);
 void free_list( books *head);
