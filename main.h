@@ -2,6 +2,7 @@
 #define MAIN_H
 #include <string.h>
 #include <stdlib.h>
+#include <signal.h>
 
 
 typedef struct Books{

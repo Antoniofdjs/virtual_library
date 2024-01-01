@@ -1,9 +1,47 @@
 #include <stdio.h>
 #include "main.h"
 
+
+
+void print_add_instructions(void)
+{
+	printf("Type the title of the book and the author like the following example, ignore the ' ':\n");
+	printf("'Book title goes here--Author goes here'\n");
+	printf("'Title--Author'(the '--' will split the title from the author\n");
+	printf(">");
+}
+
+void admin_add(books **head)
+{
+	char *str_input;
+	size_t len = 0;
+	ssize_t read;
+	char *name = NULL, *author = NULL;
+	char *line = NULL;
+
+	print_add_instructions();
+	read = getline(&str_input, &len, stdin);
+	if (read == -1)
+	{
+		printf("ERROR INPUT");
+		free(str_input);
+		return;
+	}
+	str_input[read - 1] = '\0'; /* remove \n at end */
+	if(str_input != NULL && head != NULL)
+	{
+	line = strdup(str_input);
+	name = strtok(line, "-");
+	author = strtok(NULL, "-");
+	add_book_end(head, name, author);
+	free(str_input);
+	free(line);
+	printf("Book was added\n\n");
+	}
+}
 void print_admin_options(void)
 {
-	printf("[1]: Add New Book to list\n");
+	printf("\n[1]: Add New Book to list\n");
 	printf("[2]: Delete Book from list\n");
 	printf("[3]: Edit Book from list\n");
 	printf("[4]: Exit\n>>");
@@ -17,9 +55,8 @@ void admin_settings(books **head)
 	char *password = "1234";
 	int on = 1;
 
-	(void)head;
-	printf("PASSWORD: ");
-	read = getline(&str_option, &len, stdin);
+	printf("\nPASSWORD: ");
+	read = getline(&str_option, &len, stdin); /* gets the password */
 	if (read == -1)
 	{
 		printf("ERROR INPUT");
@@ -33,12 +70,12 @@ void admin_settings(books **head)
 		while (on == 1)
 		{
 			print_admin_options();
-			read = getline(&str_option, &len, stdin);
+			read = getline(&str_option, &len, stdin); /* gets the option from admin */
 			if (read == -1)
 			{
 				printf("ERROR INPUT");
 				free(str_option);
-					return;
+				return;
 			}
 			else
 			{
@@ -46,7 +83,7 @@ void admin_settings(books **head)
 				{
 					case '1':
 						{
-							printf("Added Book\n");
+							admin_add(head);
 							break;
 						}
 					case '2':

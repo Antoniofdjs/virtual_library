@@ -2,9 +2,9 @@
 #include <string.h>
 #include "main.h"
 
-
-/** * welcome_msg - greets the user
-*/
+/**
+ * welcome_msg - greets the user
+ */
 
 void welcome_msg(void)
 {
@@ -31,7 +31,7 @@ void print_options(void)
 	printf("[4]: Exit\n\n");
 }
 
-int main (void)
+int main(void)
 {
 
 	int on = 1, i;
