@@ -8,6 +8,7 @@
 typedef struct Books{
 char *name;
 char *author;
+int id;
 struct Books *next;
 }books;
 
