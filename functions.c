@@ -11,8 +11,9 @@
 
 void *add_book_end(books **head, const char *book_name, const char *book_author)
 {
+	int book_id = 2;
 	books *new_book, *temp;
-
+	
 	temp = NULL;
 
 	new_book = malloc(sizeof(books)); /* create node */
@@ -34,15 +35,21 @@ void *add_book_end(books **head, const char *book_name, const char *book_author)
 		return (NULL);
 	}
 	if (*head == NULL)
+	{
 		*head = new_book;
+		new_book->id = 1;
+	}
 	else
 	{
 		temp = *head; /* temporary *ptr for nodes */
 		while (temp->next != NULL)/* finding last node */
+		{
 			temp = temp->next;
+			book_id++;
+		}
 
 		temp->next = new_book; /* found last node, point to new_book */
-
+		new_book->id = book_id;
 	}
 	new_book->next = NULL; /* Finally new_node points to null */
 }
@@ -109,12 +116,10 @@ void load_books(books **head)
 void print_list(const books *head)
 {
 	int total_books = 0;
-	int id = 1; /* id number for book, //should make this in the node?// */
 
 	while (head != NULL)
 	{
-		printf("#%d: \"%s\" by %s\n\n", id, head->name, head->author);
-		id++;
+		printf("#%d: \"%s\" by %s\n\n", head->id, head->name, head->author);
 		total_books++;
 		head = head->next;
 	}
