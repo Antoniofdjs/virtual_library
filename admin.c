@@ -13,7 +13,7 @@ void print_add_instructions(void)
 
 void admin_add(books **head)
 {
-	char *str_input;
+	char *str_input = NULL;
 	size_t len = 0;
 	ssize_t read;
 	char *name = NULL, *author = NULL;
