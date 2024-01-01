@@ -36,7 +36,7 @@ void admin_add(books **head)
 	add_book_end(head, name, author);
 	free(str_input);
 	free(line);
-	printf("Book was added\n\n");
+	printf("\nBook was added\n\n");
 	}
 }
 void print_admin_options(void)
