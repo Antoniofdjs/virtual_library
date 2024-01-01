@@ -30,13 +30,13 @@ void admin_add(books **head)
 	str_input[read - 1] = '\0'; /* remove \n at end */
 	if(str_input != NULL && head != NULL)
 	{
-	line = strdup(str_input);
-	name = strtok(line, "-");
-	author = strtok(NULL, "-");
-	add_book_end(head, name, author);
-	free(str_input);
-	free(line);
-	printf("\nBook was added\n\n");
+		line = strdup(str_input);
+		name = strtok(line, "-");
+		author = strtok(NULL, "-");
+		add_book_end(head, name, author);
+		free(str_input);
+		free(line);
+		printf("\nBook was added\n\n");
 	}
 }
 void print_admin_options(void)
@@ -53,7 +53,7 @@ void admin_settings(books **head)
 	size_t len = 0;
 	ssize_t read;
 	char *password = "1234";
-	int on = 1;
+	int on = 1, input;
 
 	printf("\nPASSWORD: ");
 	read = getline(&str_option, &len, stdin); /* gets the password */
@@ -88,21 +88,30 @@ void admin_settings(books **head)
 						}
 					case '2':
 						{
-							printf("Deleted Book\n");
+							printf("Enter book id to delete (#number);>>#");
+							read = getline(&str_option, &len, stdin); /* gets the password */
+							if (read == -1)
+							{
+								printf("ERROR INPUT");
+								free(str_option);
+								return;
+							}
+							str_option[read - 1] = '\0';
+							input = atoi(str_option);
+							delete_book(head, input);
 							break;
 						}
-					case '3':
-						{
-							printf("Edit Book\n");
-							break;
-						}
+					case '3':{
+								 printf("Edit Book\n");
+								 break;
+							 }
 					case '4':
-						{
-							on = 0;
-							break;
-						}
+							 {
+								 on = 0;
+								 break;
+							 }
 					default:
-						printf("Choose a valid option 1 2 3 or 4\n");
+							 printf("Choose a valid option 1 2 3 or 4\n");
 				}
 			}
 		}
